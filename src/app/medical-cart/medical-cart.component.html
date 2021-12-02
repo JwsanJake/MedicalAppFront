@@ -1,0 +1,147 @@
+<h3 class="text-center mt-4">Личная карточка пациента {{this.patient.fio}}</h3>
+
+<button class="btn btn-primary" (click)="onAddVisit()">
+    Добавить прием
+</button>
+
+<table class="table">
+    <thead class="text-center thead-dark">
+        <tr>
+            <th>№</th>
+            <th scope="col">ФИО <br> доктора</th>
+            <th scope="col">Специальность <br> доктора</th>
+            <th scope="col">Дата посещения</th>
+            <th scope="col">Жалобы</th>
+            <th scope="col">Диагноз</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let visit of visits" class="text-center">
+            <td>{{visit.visitId}}</td>
+            <td>{{visit.docfio}}</td>
+            <td>{{visit.docspec}}</td>
+            <td>{{visit.visitDate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{visit.complaints}}</td>
+            <td>{{visit.diagnosis}}</td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteVisit(visit)"><i class="fas fa-trash-alt"></i></button>
+              <button class="btn btn-primary" (click)="onUpdateVisit(visit)"><i class="fas fa-edit"></i></button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<ng-template #addTemplate>
+    <section class="create">
+      <h3>Добавить визит к врачу:</h3>
+  
+      <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+        
+        <div class="form-group" >
+          <label for="docFIO">Введите ФИО доктора</label>
+          <input type="text" class="form-control" id="docFIO" name="docFIO" placeholder="Введите ФИО доктора" formControlName="docFIO">
+          <div *ngIf="docFIO.touched && docFIO.errors" class="errorMessage">
+            <span *ngIf="docFIO.hasError('required')">Нужно ввести имя-фамилию доктора</span>
+          </div>
+        </div>
+
+        <div class="form-group" >
+            <label for="docSpec">Введите специальность доктора</label>
+            <input type="text" class="form-control" id="docSpec" name="docSpec" placeholder="Введите специальность доктора" formControlName="docSpec">
+            <div *ngIf="docSpec.touched && docSpec.errors" class="errorMessage">
+              <span *ngIf="docSpec.hasError('required')">Нужно ввести специальность доктора</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="visitDate">Выберите дату приема:</label>
+            <input type="date" class="form-control" id="visitDate" name="visitDate" formControlName="visitDate">
+            <div *ngIf="visitDate.touched && visitDate.errors" class="errorMessage">
+              <span *ngIf="visitDate.hasError('required')">Нужно ввести дату приема</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="complaints">Запишите жалобы:</label>
+            <input type="search" class="form-control" id="complaints" name="complaints" placeholder="Введите жалобы" formControlName="complaints">
+            <div *ngIf="complaints.touched && complaints.errors" class="errorMessage">
+              <span *ngIf="complaints.hasError('required')">Нужно ввести жалобы</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="diagnosis">Запишите диагноз:</label>
+            <input type="search" class="form-control" id="diagnosis" name="diagnosis" placeholder="Введите диагноз" formControlName="diagnosis">
+            <div *ngIf="diagnosis.touched && diagnosis.errors" class="errorMessage">
+              <span *ngIf="diagnosis.hasError('required')">Нужно ввести диагноз</span>
+            </div>
+        </div>
+  
+        <div class="row">
+          <div class="offset-md-5 col-md-2">
+            <button type="button" class="btn btn-primary" (click)="onSubmit()">Добавить</button>
+          </div>
+        </div>
+      </form>
+      
+    </section>
+  </ng-template>  
+  
+  
+  <ng-template #updateTemplate>
+    <section class="create">
+      <h3>Обновить визит к врачу:</h3>
+  
+      <form [formGroup]="updateForm" (ngSubmit)="updateVisit()">
+        
+        <div class="form-group" >
+          <label for="docFIO">Введите ФИО доктора</label>
+          <input type="text" class="form-control" id="docFIO" name="docFIO" placeholder="Введите ФИО доктора" formControlName="docFIO">
+          <div *ngIf="docFIO.touched && docFIO.errors" class="errorMessage">
+            <span *ngIf="docFIO.hasError('required')">Нужно ввести имя-фамилию доктора</span>
+          </div>
+        </div>
+
+        <div class="form-group" >
+            <label for="docSpec">Введите специальность доктора</label>
+            <input type="text" class="form-control" id="docSpec" name="docSpec" placeholder="Введите специальность доктора" formControlName="docSpec">
+            <div *ngIf="docSpec.touched && docSpec.errors" class="errorMessage">
+              <span *ngIf="docSpec.hasError('required')">Нужно ввести специальность доктора</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="visitDate">Выберите дату приема:</label>
+            <input type="date" class="form-control" id="visitDate"  name="visitDate"  formControlName="visitDate">
+            <div *ngIf="visitDate.touched && visitDate.errors" class="errorMessage">
+              <span *ngIf="visitDate.hasError('required')">Нужно ввести дату приема</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="complaints">Запишите жалобы:</label>
+            <input type="textarea" class="form-control" id="complaints" name="complaints" placeholder="Введите жалобы" formControlName="complaints">
+            <div *ngIf="complaints.touched && complaints.errors" class="errorMessage">
+              <span *ngIf="complaints.hasError('required')">Нужно ввести жалобы</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="diagnosis">Запишите диагноз:</label>
+            <input type="search" class="form-control" id="diagnosis" name="diagnosis" placeholder="Введите диагноз" formControlName="diagnosis">
+            <div *ngIf="diagnosis.touched && diagnosis.errors" class="errorMessage">
+              <span *ngIf="diagnosis.hasError('required')">Нужно ввести диагноз</span>
+            </div>
+        </div>
+  
+        <div class="row">
+          <div class="offset-md-5 col-md-2">
+            <button type="button" class="btn btn-primary" (click)="updateVisit()">Добавить</button>
+          </div>
+        </div>
+      </form>
+      
+    </section>
+  </ng-template>  
